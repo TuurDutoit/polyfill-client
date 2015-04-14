@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="test" />
+        <meta name="keywords" content="test" />
+        <title>Test</title>
+        
+        <script type="text/javascript" src="polyfill.js"></script>
+        
+        <script type="text/javascript">
+            var div = document.createElement("div");
+            Polyfill("events", !("addEventListener" in div && "removeEventListener" in div));
+            Polyfill("querySelector", true);
+            Polyfill.add("array-extras");
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>
