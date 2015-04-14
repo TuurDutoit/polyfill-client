@@ -124,6 +124,9 @@
             case 0:
                 Polyfill.start();
                 break;
+            case 1:
+                Polyfill.add(name);
+                break;
             case 2:
                 Polyfill.load(name, func);
                 break;
@@ -211,13 +214,15 @@
     
     
     Polyfill.start = function() {
-        var url = "polyfill.js?" + map(features, encodeURIComponent).join("&");
-        var script = document.createElement("script");
-        script.setAttribute("type", "text/javascript");
-        script.setAttribute("src", url);
-        document.getElementsByTagName("head")[0].appendChild(script);
-        
-        this.emit("load", [script]);
+        if(features.length) {
+            var url = "polyfill.js?" + map(features, encodeURIComponent).join("&");
+            var script = document.createElement("script");
+            script.setAttribute("type", "text/javascript");
+            script.setAttribute("src", url);
+            document.getElementsByTagName("head")[0].appendChild(script);
+
+            this.emit("load", [script]);
+        }
         
         return this;
     }
