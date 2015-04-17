@@ -117,6 +117,118 @@ __*return:*__ *Polyfill*. For chaining.
 Alias for [Polyfill.load()].
 
 
+### Polyfill.autoStart : *bool (true)*
+A boolean indicating whether [Polyfill.start()] should be called automatically when the `load` event is fired on `window`, i.e. when `window.onload` is called.  
+`true` by default.
+
+
+### Polyfill.\_\_features : *Array.\<string\>*
+*Private*  
+An array of names of the polyfills that should be downloaded. These are the names that end up in the `src` or the generated script tag (see [concepts]).
+
+
+### Polyfill.\_\_listeners : *Object*
+*Private*  
+An object mapping event names to arrays of listeners. Because it's intended for private use, I won't elaborate.
+
+
+### Polyfill.add (string name) - .
+*Emits: [Polyfill@add]*  
+__name:__ *string*. The name of the polyfill to add.  
+__*return:*__ *Polyfill*. For chaining.
+
+Adds a polyfill to [Polyfill.__features] as to make sure it is included in the download when [Polyfill.start()] is called.
+
+```javascript
+Polyfill.add("my-polyfill");
+// my-polyfill will now be downloaded when Polyfill.start is called
+```
+
+
+### Polyfill.remove (string name) - .
+*Emits: [Polyfill@remove]*  
+__name:__ *string*. The name of the polyfill to remove.  
+__*return:*__ *Polyfill*. For chaining.
+
+Opposite of [Polyfill.add()], i.e. removes a polyfill from [Polyfill.__features], as to not download it anymore.
+
+
+### Polyfill.load (string name, bool test) - .
+__name:__ *string*. The name of the polyfill to load.  
+__test:__ *boolean*. A bool indicating whether or not to add the polyfill.  
+__*return:*__ *Polyfill*. For chaining.
+
+Calls [Polyfill.add()] for the specified polyfill if `test` is truthy (you can actually pass anything for `test`, but it will be checked for thruthiness).
+
+
+### Polyfill.added (string name) - *bool*
+*Alias: `Polyfill.loaded()`*  
+__name:__ *string*. The name of the polyfill to check.  
+__*return:*__ *boolean*. A bool indicating whether or not the polyfill has been added.
+
+Checks if the polyfill has already been added, i.e. if `name` exists in [Polyfill.__features].
+
+
+### Polyfill.start () - .
+*Emits: [Polyfill@load]*  
+__*return:*__ *Polyfill*. For chaining.
+
+This is where the actual magic is happening: in this method, the script tag is created, with the right `src` and appended to the head of the document, as explained in [Concepts].  
+Emits [Polyfill@load] when finished, and thus when the script and its polyfills have loaded.
+
+
+### Polyfill.on (string event, Listener listener) - .
+__event:__ *string*. The name of the event to attach the listener to.  
+__listener:__ *Listener*. The listener to attach to the specified event.  
+__*return:*__ *Polyfill*. For chaining.
+
+Attaches `listener` to the `event` event, i.e. when `event` is emitted, `listener` is called.  
+Polyfill emits a few events (`add`, `remove` and `load`), which can help you react to certain actions.  
+`listener` is a normal function, but check [Listener] for more info about its context.
+
+
+### Polyfill.off (string event, Listener listener) - .
+__event:__ *string*. The name of the event from which to detach `listener`.  
+__listener:__ *Listener*. The listener to detach from the specified event.  
+__*return:*__ *Polyfill*. For chaining.
+
+Does the opposite of [Polyfill.on()], i.e. detaches a listener from the specified event, so it doesn't get called anymore when `event` is emitted.
+
+
+### Polyfill.emit (string event, any[] arguments) - .
+__event:__ *string*. The event that should be fired.  
+__arguments:__ *Array.\<any\>*. Arguments to pass to the listeners.  
+__*return:*__ *Polyfill*. For chaining.
+
+Emits the `event` event, i.e. executes the listeners attached to the event (in the order they were added).
+
+
+### Polyfill@add (string polyfill)
+__polyfill:__ *string*. The name of the polyfill that has been added.
+
+Emitted when a polyfill has been added to [Polyfill.__features] using [Polyfill.add()].
+
+
+### Polyfill@remove (string polyfill)
+__polyfill:__ *string*. The name of the polyfill that has been removed.
+
+Emitted when a polyfill has been removed from [Polyfill.__features] using [Polyfill.remove()].
+
+
+### Polyfill@load (Element script)
+__script:__ *Element*. The script element that was generated.
+
+Emitted when the the script has been generated and added, and the polyfills are thus loaded.
+
+
+### Listener : function
+A Listener is a function that can be attached to an event.
+
+They are regular functions, but when called, their context (i.e. `this`) is set to `Polyfill` and they are passed the array arguments passed to [Polyfill.emit()].
+
+
+
+
 
 
 
