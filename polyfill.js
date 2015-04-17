@@ -62,49 +62,7 @@
         return res;
     }
     
-    var set = function(parent, path, value) {
-        var steps = path.split(".");
-        var endPath = steps.pop();
-        var basePath = steps.join(".");
-        
-        var parent = get(basePath);
-        
-        return typeof parent === "object" ? (parent[endPath] = value, true) : false;
-    }
     
-    var get = function(parent, path) {
-        if(path === "") {
-            return parent;
-        }
-        
-        var steps = path.split(".");
-        var len = steps.length;
-        
-        while(typeof parent === "object" && i < len) {
-            parent = parent[steps[i]];
-            i++;
-        }
-        
-        return parent;
-    }
-    
-    var copyArray = function(arr, start, end) {
-        return Array.prototype.slice.call(arr, start, end);
-    }
-    
-    
-    
-    var Attach = function() {
-        this.__attach();
-        Polyfill.emit("attach", [this]);
-        
-        return this;
-    }
-    
-    var Detach = function() {
-        this.__detach();
-        Polyfill.emit("detach", [this]);
-    }
     
     
     
@@ -130,9 +88,6 @@
             case 2:
                 Polyfill.load(name, func);
                 break;
-            case 4:
-                Polyfill.register(name, func, attach, detach);
-                break;
         }
         
         return this;
@@ -140,7 +95,6 @@
     
     
     Polyfill.autoStart = true;
-    Polyfill.autoAttach = true;
     Polyfill.__features = features;
     Polyfill.__listeners = listeners;
     
@@ -175,42 +129,6 @@
     Polyfill.loaded = function(feature) {
         return contains(features, feature);
     }
-    
-    Polyfill.register = function(name, func, attach, detach) {
-        set(this, name, func);
-        func.__attach = attach;
-        func.__detach = detach;
-        func.attach = Attach;
-        func.detach = Detach;
-        
-        this.emit("register", [name, func, attach, detach]);
-        
-        if(this.autoAttach) {
-            func.attach();
-        }
-        
-        return this;
-    }
-    
-    Polyfill.attach = function(name) {
-        var func = get(this, name);
-        func.attach();
-        
-        return this;
-    }
-    
-    Polyfill.detach = function(name) {
-        var func = get(this, name);
-        func.detach();
-    }
-    
-    Polyfill.run = Polyfill.call = function(name, object) {
-        var func = get(this, name);
-        func.apply(object, copyArray(arguments, 2));
-        
-        return this;
-    }
-    
     
     
     Polyfill.start = function() {

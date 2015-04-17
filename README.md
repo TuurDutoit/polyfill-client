@@ -64,35 +64,15 @@ Polyfill.start();
 
 
 ### Making your own
-Making your own polyfills isn't very difficult. You just have to code an alternative function and register it with Polyfill.
+Making your own polyfills isn't very difficult. In fact, you can just write your polyfills exactly like you did before and make sure they are recognised by the server (this usually involves putting the files in a specific folder). Don't forget to give the file the right name!
 
-```javascript
-var polyfill = function(argument) {
-    doSomething(arguments);
-    this.doAnotherThing();
-}
-var attach = function() {
-    SomeClass.prototype.someMethod = polyfill;
-}
-var detach = function() {
-    SomeClass.prototype.someMethod = undefined;
-}
-
-Polyfill.register("my-polyfill", polyfill, attach, detach);
-```
-
-Here, `my-polyfill` is the name of the polyfill, `polyfill` is the alternative function, `attach` is a function that attaches the polyfill to the right location and `detach` detaches the polyfill.  
-Once more, you could use the short version:
-
-```javascript
-Polyfill("my-polyfill", polyfill, attach, detach);
-```
+But that's all there is to it. Just write it like before, give it a name and put it in the right place. Done.
 
 
 
 
 ## Setting up the server
-When `Polyfill.start()` is called, a request to the server will be initiated, with a URL that looks like `polyfills.js?polyfill-1&polyfill-2`, where `polyfill-1` and `polyfill-2` are the names of the added polyfills. The server should then generate a file that includes these polyfills and send that back to the client.  
+When `Polyfill.start()` is called, a request to the server will be initiated, with a URL that looks like `polyfills.js?polyfill-1&polyfill-2`, where `polyfill-1` and `polyfill-2` are the names of the added polyfills. The server should then generate a file that includes these polyfills and send that back to the client. Normally, you should just concatenate the files in a specific directory named (in this case) `polyfill-1.js` and `polyfill-2.js`.  
 We have a node.js module that does this for you [here][polyfill-node].
 
 
@@ -100,7 +80,7 @@ We have a node.js module that does this for you [here][polyfill-node].
 ## Concepts
 When [Polyfill.start()] is called, Polyfill generates a `<script>` tag with the `src` attribute set to `polyfill.js?` followed by the names of the added polyfills (URL escaped), seperated by a `&` (for example: `polyfill.js?polyfill1&second-polyfill&myThirdPolyfill`). This script is then appended to the `<head>`.
 
-So, when `Polyfill.start()` is called, a request to the server will be initiated, with a URL that equals the `src` of the script. The server can then extract the required polyfills, read them from disk (or cache) concatenate them and send the resulting filr to the client. This code, including some [Polyfill.register()] calls, will then be executed and the polyfills will thus be loaded.
+So, when `Polyfill.start()` is called, a request to the server will be initiated, with a URL that equals the `src` of the script. The server can then extract the required polyfills, read them from disk (or cache) concatenate them and send the resulting file to the client. This code will then be executed and the polyfills will thus be loaded.
 
 
 
@@ -110,6 +90,33 @@ Would you just be so kind to use the right tags.
 
 
 ## API
+### Polyfill
+Polyfill is a function that acts as an alias for a few of its own properties (like [Polyfill.load()], [Polyfill.remove()]...). These different aliases and their usages are outlined below.
+
+### Polyfill () - .
+*Alias: [Polyfill.start()].*  
+__*return:*__ *Polyfill*. For chaining.
+
+Alias for [Polyfill.start()].
+
+
+### Polyfill (string name) - .
+*Alias: [Polyfill.add()].*  
+__name:__ *string*. The name of the polyfill to add.  
+__*return:*__ *Polyfill*. For chaining.
+
+Alias for [Polyfill.add()].
+
+
+### Polyfill (string name, bool test) - .
+*Alias: [Polyfill.load()].*  
+__name:__ *string*. The name of the polyfill to add.  
+__test:__ *boolean*. A bool indicating whether to add the polyfill.  
+__*return:*__ *Polyfill*. For chaining.
+
+Alias for [Polyfill.load()].
+
+
 
 
 
