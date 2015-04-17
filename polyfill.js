@@ -72,12 +72,12 @@
      *************/
     
     
-    var features = [];
+    var polyfills = [];
     var listeners = {};
     
     
     
-    var Polyfill = function(name, func, attach, detach) {
+    var Polyfill = function(name, test) {
         switch(arguments.length) {
             case 0:
                 Polyfill.start();
@@ -86,7 +86,7 @@
                 Polyfill.add(name);
                 break;
             case 2:
-                Polyfill.load(name, func);
+                Polyfill.load(name, test);
                 break;
         }
         
@@ -95,45 +95,45 @@
     
     
     Polyfill.autoStart = true;
-    Polyfill.__features = features;
+    Polyfill.__polyfills = polyfills;
     Polyfill.__listeners = listeners;
+
+
+    Polyfill.add = function(polyfill) {
+        add(polyfills, polyfill);
+        
+        this.emit("add", [polyfill]);
+        
+        return this;
+    }
+
     
+    Polyfill.remove = function(polyfill) {
+        remove(polyfills, polyfill);
+        
+        this.emit("remove", [polyfill]);
+        
+        return this;
+    }
+
     
-    Polyfill.load = function(feature, test) {
+    Polyfill.load = function(polyfill, test) {
         if(test) {
-            this.add(feature);
+            this.add(polyfill);
         }
         
         return this;
     }
     
     
-    Polyfill.remove = function(feature) {
-        remove(features, feature);
-        
-        this.emit("remove", [feature]);
-        
-        return this;
-    }
-    
-    
-    Polyfill.add = function(feature) {
-        add(features, feature);
-        
-        this.emit("add", [feature]);
-        
-        return this;
-    }
-    
-    
-    Polyfill.loaded = function(feature) {
-        return contains(features, feature);
+    Polyfill.loaded = function(polyfill) {
+        return contains(polyfills, polyfill);
     }
     
     
     Polyfill.start = function() {
-        if(features.length) {
-            var url = "polyfill.js?" + map(features, encodeURIComponent).join("&");
+        if(polyfills.length) {
+            var url = "polyfills.js?" + map(polyfills, encodeURIComponent).join("&");
             var script = document.createElement("script");
             script.setAttribute("type", "text/javascript");
             script.setAttribute("src", url);

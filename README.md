@@ -122,7 +122,7 @@ A boolean indicating whether [Polyfill.start()] should be called automatically w
 `true` by default.
 
 
-### Polyfill.\_\_features : *Array.\<string\>*
+### Polyfill.\_\_polyfills : *Array.\<string\>*
 *Private*  
 An array of names of the polyfills that should be downloaded. These are the names that end up in the `src` or the generated script tag (see [concepts]).
 
@@ -137,7 +137,7 @@ An object mapping event names to arrays of listeners. Because it's intended for 
 __name:__ *string*. The name of the polyfill to add.  
 __*return:*__ *Polyfill*. For chaining.
 
-Adds a polyfill to [Polyfill.__features] as to make sure it is included in the download when [Polyfill.start()] is called.
+Adds a polyfill to [Polyfill.__polyfills] as to make sure it is included in the download when [Polyfill.start()] is called.
 
 ```javascript
 Polyfill.add("my-polyfill");
@@ -150,7 +150,7 @@ Polyfill.add("my-polyfill");
 __name:__ *string*. The name of the polyfill to remove.  
 __*return:*__ *Polyfill*. For chaining.
 
-Opposite of [Polyfill.add()], i.e. removes a polyfill from [Polyfill.__features], as to not download it anymore.
+Opposite of [Polyfill.add()], i.e. removes a polyfill from [Polyfill.__polyfills], as to not download it anymore.
 
 
 ### Polyfill.load (string name, bool test) - .
@@ -166,7 +166,7 @@ Calls [Polyfill.add()] for the specified polyfill if `test` is truthy (you can a
 __name:__ *string*. The name of the polyfill to check.  
 __*return:*__ *boolean*. A bool indicating whether or not the polyfill has been added.
 
-Checks if the polyfill has already been added, i.e. if `name` exists in [Polyfill.__features].
+Checks if the polyfill has already been added, i.e. if `name` exists in [Polyfill.__polyfills].
 
 
 ### Polyfill.start () - .
@@ -206,13 +206,13 @@ Emits the `event` event, i.e. executes the listeners attached to the event (in t
 ### Polyfill@add (string polyfill)
 __polyfill:__ *string*. The name of the polyfill that has been added.
 
-Emitted when a polyfill has been added to [Polyfill.__features] using [Polyfill.add()].
+Emitted when a polyfill has been added to [Polyfill.__polyfills] using [Polyfill.add()].
 
 
 ### Polyfill@remove (string polyfill)
 __polyfill:__ *string*. The name of the polyfill that has been removed.
 
-Emitted when a polyfill has been removed from [Polyfill.__features] using [Polyfill.remove()].
+Emitted when a polyfill has been removed from [Polyfill.__polyfills] using [Polyfill.remove()].
 
 
 ### Polyfill@load (Element script)
