@@ -62,6 +62,10 @@
         return res;
     }
     
+    var sort = function(a, b) {
+        return a < b ? -1 : a > b ? 1 : 0;
+    }
+    
     
     
     
@@ -133,7 +137,7 @@
     
     Polyfill.start = function() {
         if(polyfills.length) {
-            var url = "polyfills.js?" + map(polyfills, encodeURIComponent).join("&");
+            var url = "polyfills.js?" + map(polyfills.sort(sort), encodeURIComponent).join("&");
             var script = document.createElement("script");
             script.setAttribute("type", "text/javascript");
             script.setAttribute("src", url);
