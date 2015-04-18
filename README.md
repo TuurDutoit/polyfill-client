@@ -90,18 +90,18 @@ Would you just be so kind to use the right tags.
 
 
 ## API
-### Polyfill
+### Polyfill : function
 Polyfill is a function that acts as an alias for a few of its own properties (like [Polyfill.load()], [Polyfill.remove()]...). These different aliases and their usages are outlined below.
 
 ### Polyfill () - .
-*Alias: [Polyfill.start()].*  
+*Alias: [Polyfill.start()]*  
 __*return:*__ *Polyfill*. For chaining.
 
 Alias for [Polyfill.start()].
 
 
 ### Polyfill (string name) - .
-*Alias: [Polyfill.add()].*  
+*Alias: [Polyfill.add()]*  
 __name:__ *string*. The name of the polyfill to add.  
 __*return:*__ *Polyfill*. For chaining.
 
@@ -109,7 +109,7 @@ Alias for [Polyfill.add()].
 
 
 ### Polyfill (string name, bool test) - .
-*Alias: [Polyfill.load()].*  
+*Alias: [Polyfill.load()]*  
 __name:__ *string*. The name of the polyfill to add.  
 __test:__ *boolean*. A bool indicating whether to add the polyfill.  
 __*return:*__ *Polyfill*. For chaining.
@@ -137,7 +137,7 @@ An object mapping event names to arrays of listeners. Because it's intended for 
 __name:__ *string*. The name of the polyfill to add.  
 __*return:*__ *Polyfill*. For chaining.
 
-Adds a polyfill to [Polyfill.__polyfills] as to make sure it is included in the download when [Polyfill.start()] is called.
+Adds a polyfill to [Polyfill.__polyfills] to make sure it is included in the download when [Polyfill.start()] is called.
 
 ```javascript
 Polyfill.add("my-polyfill");
@@ -195,22 +195,22 @@ __*return:*__ *Polyfill*. For chaining.
 Does the opposite of [Polyfill.on()], i.e. detaches a listener from the specified event, so it doesn't get called anymore when `event` is emitted.
 
 
-### Polyfill.emit (string event, any[] arguments) - .
+### Polyfill.emit (string event, [any[] arguments]) - .
 __event:__ *string*. The event that should be fired.  
-__arguments:__ *Array.\<any\>*. Arguments to pass to the listeners.  
+__arguments:__ *Array.\<any\>; Optional*. Arguments to pass to the listeners.  
 __*return:*__ *Polyfill*. For chaining.
 
 Emits the `event` event, i.e. executes the listeners attached to the event (in the order they were added).
 
 
-### Polyfill@add (string polyfill)
-__polyfill:__ *string*. The name of the polyfill that has been added.
+### Polyfill@add (string name)
+__name:__ *string*. The name of the polyfill that has been added.
 
 Emitted when a polyfill has been added to [Polyfill.__polyfills] using [Polyfill.add()].
 
 
-### Polyfill@remove (string polyfill)
-__polyfill:__ *string*. The name of the polyfill that has been removed.
+### Polyfill@remove (string name)
+__name:__ *string*. The name of the polyfill that has been removed.
 
 Emitted when a polyfill has been removed from [Polyfill.__polyfills] using [Polyfill.remove()].
 
@@ -274,3 +274,21 @@ THE SOFTWARE.
 [Contributing]: #contributing
 [API]: #api
 [License]: #license
+[polyfill-node]: #https://github.com/TuurDutoit/polyfill-node
+
+[Polyfill]: #polyfill--function
+[Polyfill.autoStart]: #polyfillautostart--bool-true
+[Polyfill.__polyfills]: #polyfill__polyfills--arraystring
+[Polyfill.__listeners]: #polyfill__listeners--object
+[Polyfill.add()]: #polyfilladd-string-name---
+[Polyfill.remove()]: #polyfillremove-string-name---
+[Polyfill.load()]: #polyfillload-string-name-bool-test---
+[Polyfill.added()]: #polyfilladded-string-name---bool
+[Polyfill.start()]: #polyfillstart----
+[Polyfill.on()]: #polyfillon-string-event-listener-listener---
+[Polyfill.off()]: #polyfilloff-string-event-listener-listener---
+[Polyfill.emit()]: #polyfillemit-string-event-any-arguments---
+[Polyfill@add]: #polyfilladd-string-name
+[Polyfill@remove]: #polyfillremove-string-name
+[Polyfill@load]: #polyfillload-element-script
+[Listener]: #listener--function
