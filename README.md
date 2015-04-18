@@ -1,5 +1,6 @@
 Polyfill
 ========
+v1.0.0
 
 Load your polyfills (or code) conditionally.
 
@@ -17,8 +18,8 @@ Load your polyfills (or code) conditionally.
 
 First, you need to download Polyfill. You can find two versions in the root of this repo:
 
-1. `polyfill.js`: the original source code, with comments (6.1 kB).
-2. `polyfill.min.js`: the minified code, ready for production (2.3 kB, or 969 Bytes gzipped).
+1. `polyfill.js`: the original source code, with comments (4.2 kB).
+2. `polyfill.min.js`: the minified code, ready for production (1.5 kB, or 730 Bytes gzipped).
 
 Then, include it in your HTML like this:
 
